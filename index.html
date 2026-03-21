@@ -1,13 +1,95 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hamster Kombat Clone</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Empire - Ad Test</title>
+    
+    <!-- 1. Adsgram ki Library (Ye sabse zaroori hai) -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+
+    <!-- Thoda sa CSS jisse app acha dikhe -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1e1e24;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background-color: #2b2b36;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        button {
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #005f8f;
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Meme Empire Test App</h2>
+        <p>Apna Adsgram Ad test karne ke liye niche click karein.</p>
+        
+        <!-- Ad chalane ka button -->
+        <button id="playAdBtn">Watch Ad & Test</button>
+        
+        <!-- Yahan ad ka status dikhega -->
+        <p id="status"></p>
+    </div>
+
+    <!-- JavaScript code -->
+    <script>
+        // 2. Adsgram ko aapki ID (int-25579) ke sath initialize kar rahe hain
+        const AdController = window.Adsgram.init({ blockId: "int-25579" });
+
+        // Button aur status text ko select karna
+        const playAdBtn = document.getElementById('playAdBtn');
+        const statusText = document.getElementById('status');
+
+        // Button click hone par kya hoga
+        playAdBtn.addEventListener('click', () => {
+            statusText.innerText = "Ad load ho raha hai... Kripya wait karein.";
+            statusText.style.color = "yellow";
+
+            // 3. Ad play karna
+            AdController.show().then((result) => {
+                // Agar user ad pura dekh leta hai
+                console.log("Ad success!", result);
+                statusText.innerText = "Ad successfully chal gaya! 🎉 (Yahan aap user ko coin de sakte hain)";
+                statusText.style.color = "#4caf50"; // Green color
+            }).catch((error) => {
+                // Agar user ad beech mein skip/close kar de ya error aaye
+                console.error("Ad Error/Skipped:", error);
+                statusText.innerText = "Ad beech mein band ho gaya ya load nahi hua. ❌";
+                statusText.style.color = "#f44336"; // Red color
+            });
+        });
+    </script>
+
+</body>
 </html>
