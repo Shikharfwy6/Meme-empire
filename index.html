@@ -1,92 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meme Empire - Ad Test</title>
-    
-    <!-- 1. Adsgram ki Library (Ye sabse zaroori hai) -->
+    <title>Meme Empire - Official App</title>
+    <!-- Adsgram Library -->
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-
-    <!-- Thoda sa CSS jisse app acha dikhe -->
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f0f12;
+            color: white;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #1e1e24;
-            color: white;
         }
-        .container {
+        .header {
+            width: 100%;
+            background-color: #24242e;
+            padding: 15px;
             text-align: center;
-            background-color: #2b2b36;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 22px;
+            font-weight: bold;
+            border-bottom: 2px solid #0088cc;
         }
-        button {
+        .meme-card {
+            background-color: #1c1c24;
+            width: 90%;
+            max-width: 400px;
+            margin: 20px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .meme-img {
+            width: 100%;
+            height: 250px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #888;
+        }
+        .meme-content {
+            padding: 15px;
+            text-align: center;
+        }
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .btn {
             background-color: #0088cc;
             color: white;
             border: none;
-            padding: 12px 24px;
-            font-size: 16px;
+            padding: 12px 20px;
             border-radius: 8px;
+            font-weight: bold;
             cursor: pointer;
-            margin-top: 20px;
-            transition: background 0.3s;
+            transition: 0.3s;
         }
-        button:hover {
-            background-color: #005f8f;
+        .btn-reward {
+            background-color: #ff9800;
+        }
+        .footer {
+            margin-top: auto;
+            padding: 20px;
+            font-size: 12px;
+            color: #777;
         }
         #status {
-            margin-top: 20px;
             font-size: 14px;
-            font-weight: bold;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>Meme Empire Test App</h2>
-        <p>Apna Adsgram Ad test karne ke liye niche click karein.</p>
-        
-        <!-- Ad chalane ka button -->
-        <button id="playAdBtn">Watch Ad & Test</button>
-        
-        <!-- Yahan ad ka status dikhega -->
-        <p id="status"></p>
+    <div class="header">MEME EMPIRE 👑</div>
+
+    <div class="meme-card">
+        <div class="meme-img">
+            <!-- Yahan aap kisi bhi meme ki image ka link dal sakte hain -->
+            <img src="https://via.placeholder.com/400x250.png?text=Daily+Meme+Update" alt="Meme" style="width:100%">
+        </div>
+        <div class="meme-content">
+            <h3>Aaj ka Best Meme!</h3>
+            <p>Mazedaar memes dekhne ke liye button par click karein.</p>
+        </div>
     </div>
 
-    <!-- JavaScript code -->
-    <script>
-        // 2. Adsgram ko aapki ID (int-25579) ke sath initialize kar rahe hain
-        const AdController = window.Adsgram.init({ blockId: "int-25581" });
+    <div class="btn-container">
+        <button class="btn">Next Meme</button>
+        <button class="btn btn-reward" id="playAdBtn">Get Coins 💰</button>
+    </div>
 
-        // Button aur status text ko select karna
+    <div id="status"></div>
+
+    <div class="footer">
+        © 2026 Meme Empire | Powered by Telegram Mini Apps
+    </div>
+
+    <script>
+        // Adsgram ID yahan update karein (nayi wali ID jab mile)
+        const AdController = window.Adsgram.init({ blockId: "int-25579" });
+
         const playAdBtn = document.getElementById('playAdBtn');
         const statusText = document.getElementById('status');
 
-        // Button click hone par kya hoga
         playAdBtn.addEventListener('click', () => {
-            statusText.innerText = "Ad load ho raha hai... Kripya wait karein.";
-            statusText.style.color = "yellow";
-
-            // 3. Ad play karna
+            statusText.innerText = "Loading ad...";
             AdController.show().then((result) => {
-                // Agar user ad pura dekh leta hai
-                console.log("Ad success!", result);
-                statusText.innerText = "Ad successfully chal gaya! 🎉 (Yahan aap user ko coin de sakte hain)";
-                statusText.style.color = "#4caf50"; // Green color
-            }).catch((error) => {
-                // Agar user ad beech mein skip/close kar de ya error aaye
-                console.error("Ad Error/Skipped:", error);
-                statusText.innerText = "Ad beech mein band ho gaya ya load nahi hua. ❌";
-                statusText.style.color = "#f44336"; // Red color
+                statusText.innerText = "Success! Coins added.";
+                statusText.style.color = "#4caf50";
+            }).catch((err) => {
+                statusText.innerText = "Ad could not load.";
+                statusText.style.color = "#f44336";
             });
         });
     </script>
