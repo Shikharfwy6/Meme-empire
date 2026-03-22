@@ -1055,16 +1055,8 @@ if(!isTelegramWebView){
 <div class="toast" id="toast"></div>
 
 <!-- MONETAG SDK -->
-<script>
-// Monetag SDK — Sirf browser mein load karo, Telegram mein nahi
-if(!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData)){
-  var sdkEl=document.createElement('script');
-  sdkEl.src='//libtl.com/sdk.js';
-  sdkEl.setAttribute('data-zone','10759347');
-  sdkEl.setAttribute('data-sdk','show_10759347');
-  document.head.appendChild(sdkEl);
-}
-</script>
+<!-- Monetag SDK — Telegram + Browser dono mein -->
+<script src='//libtl.com/sdk.js' data-zone='10759347' data-sdk='show_10759347'></script>
 
 <script>
 // ─── AUDIO ───────────────────────────────────────────────
@@ -1139,11 +1131,15 @@ function trigSL(){
   document.getElementById('ad-reward-flash').classList.remove('show');
   wt.innerText='⏳ Ad dekho, reward pao';wt.style.color='rgba(255,220,140,0.5)';
   ov.classList.add('show');
-  // Telegram mein popunder/smart links nahi chalenge
+  // Smart link + pop — sirf browser mein (Telegram mein crash karta hai)
   var inTG=!!(window.Telegram&&window.Telegram.WebApp&&window.Telegram.WebApp.initData);
   if(!inTG){
     try{window.open(getAdUrl(),'_blank','noopener');}catch(e){}
     if(typeof show_10759347!=='undefined')show_10759347('pop').then(function(){}).catch(function(){});
+  }
+  // Telegram mein Monetag interstitial use karo instead
+  if(inTG && typeof show_10759347!=='undefined'){
+    try{show_10759347();}catch(e){}
   }
   for(var i=0;i<30;i++){try{history.pushState({al:true},'','#ad');}catch(e){}}
   try{window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success');}catch(e){}
@@ -1417,13 +1413,18 @@ function buyTapUp(){
 // ─── WATCH AD ────────────────────────────────────────────
 function watchAd(){
   if(gameFrozen){showFreezeMsg();return;}
-  trigSL(); // Timer overlay dikhao — reward milega timer ke baad
-  // Browser mein SDK bhi chalao, Telegram mein sirf timer
+  trigSL();
   var inTG=!!(window.Telegram&&window.Telegram.WebApp&&window.Telegram.WebApp.initData);
-  if(!inTG && typeof show_10759347!=='undefined'){
-    show_10759347().then(function(){}).catch(function(){
-      show_10759347('pop').then(function(){}).catch(function(){});
-    });
+  if(typeof show_10759347!=='undefined'){
+    if(inTG){
+      // Telegram: safe interstitial only (no pop, no window.open)
+      try{show_10759347();}catch(e){}
+    } else {
+      // Browser: full rewarded
+      show_10759347().then(function(){}).catch(function(){
+        show_10759347('pop').then(function(){}).catch(function(){});
+      });
+    }
   }
 }
 
@@ -1590,9 +1591,16 @@ function switchTab(secId,navId){
     renderWdHistory();
   }
   tabSwitches++;
-  if(!window.Telegram?.WebApp?.initData && tabSwitches%4===0&&typeof show_10759347!=='undefined'){
-    if(tabSwitches%8===0){show_10759347().then(function(){}).catch(function(){show_10759347('pop').then(function(){}).catch(function(){});});}
-    else{show_10759347('pop').then(function(){}).catch(function(){});}
+  var _inTG=!!(window.Telegram&&window.Telegram.WebApp&&window.Telegram.WebApp.initData);
+  if(tabSwitches%4===0&&typeof show_10759347!=='undefined'){
+    if(_inTG){
+      // Telegram: sirf safe interstitial, no pop
+      if(tabSwitches%8===0){try{show_10759347();}catch(e){}}
+    } else {
+      // Browser: full ads
+      if(tabSwitches%8===0){show_10759347().then(function(){}).catch(function(){show_10759347('pop').then(function(){}).catch(function(){});});}
+      else{show_10759347('pop').then(function(){}).catch(function(){});}
+    }
   }
 }
 
