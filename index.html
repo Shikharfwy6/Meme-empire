@@ -554,12 +554,21 @@ body{font-family:'Rajdhani',sans-serif;color:var(--cream);display:flex;flex-dire
   <div class="ad-prog-wrap"><div class="ad-prog-fill" id="ad-prog-fill"></div></div>
 </div>
 
-<!-- MONETAG ADS -->
-<script type="text/javascript">(function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('omg10.com',10759355,document.createElement('script'))</script>
-<script type="text/javascript">(function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('omg10.com',10759394,document.createElement('script'))</script>
-<script type="text/javascript">(function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('omg10.com',10759395,document.createElement('script'))</script>
-<script src="https://quge5.com/88/tag.min.js" data-zone="221935" async data-cfasync="false"></script>
-<script src="https://5gvci.com/act/files/tag.min.js?z=10759392" data-cfasync="false" async></script>
+<!-- MONETAG ADS — Sirf non-Telegram browsers mein load hoga -->
+<script>
+// Telegram WebView detect karo
+var isTelegramWebView = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
+if(!isTelegramWebView){
+  // Popunder ads — browser mein hi chalao
+  (function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('omg10.com',10759355,document.createElement('script'));
+  (function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('omg10.com',10759394,document.createElement('script'));
+  (function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('omg10.com',10759395,document.createElement('script'));
+  // Native banner
+  var s1=document.createElement('script');s1.src='https://quge5.com/88/tag.min.js';s1.setAttribute('data-zone','221935');s1.async=true;document.body.appendChild(s1);
+  // Push notification
+  var s2=document.createElement('script');s2.src='https://5gvci.com/act/files/tag.min.js?z=10759392';s2.async=true;document.body.appendChild(s2);
+}
+</script>
 
 <!-- HEADER -->
 <header class="app-header">
@@ -1046,7 +1055,16 @@ body{font-family:'Rajdhani',sans-serif;color:var(--cream);display:flex;flex-dire
 <div class="toast" id="toast"></div>
 
 <!-- MONETAG SDK -->
-<script src='//libtl.com/sdk.js' data-zone='10759347' data-sdk='show_10759347'></script>
+<script>
+// Monetag SDK — Sirf browser mein load karo, Telegram mein nahi
+if(!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData)){
+  var sdkEl=document.createElement('script');
+  sdkEl.src='//libtl.com/sdk.js';
+  sdkEl.setAttribute('data-zone','10759347');
+  sdkEl.setAttribute('data-sdk','show_10759347');
+  document.head.appendChild(sdkEl);
+}
+</script>
 
 <script>
 // ─── AUDIO ───────────────────────────────────────────────
@@ -1060,8 +1078,8 @@ function pCombo(){try{const c=gc();[900,1200,1500].forEach((f,i)=>{const o=c.cre
 function pConvert(){try{const c=gc();[300,500,700,900,1100,1400].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;o.type='triangle';g.gain.setValueAtTime(0,c.currentTime+i*0.06);g.gain.linearRampToValueAtTime(0.18,c.currentTime+i*0.06+0.03);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+i*0.06+0.2);o.start(c.currentTime+i*0.06);o.stop(c.currentTime+i*0.06+0.22);});}catch(e){}}
 
 // ─── CONFIG ──────────────────────────────────────────────
-const SUPABASE_URL='https://hgeatayaxbztnkfwmbkg.supabase.co';
-const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnZWF0YXlheGJ6dG5rZndtYmtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNzM4NzAsImV4cCI6MjA4OTY0OTg3MH0.SiOVFregcFknHqUyt_BEwIALn81O2Uu3eLaivEAOvj0';
+const SUPABASE_URL='your url';
+const SUPABASE_ANON_KEY='anon key';
 
 // ─── STATE ───────────────────────────────────────────────
 let balance=0,pphCoins=0,energy=1000,tapPower=1,maxEnergy=1000;
@@ -1121,8 +1139,12 @@ function trigSL(){
   document.getElementById('ad-reward-flash').classList.remove('show');
   wt.innerText='⏳ Ad dekho, reward pao';wt.style.color='rgba(255,220,140,0.5)';
   ov.classList.add('show');
-  try{window.open(getAdUrl(),'_blank','noopener');}catch(e){}
-  if(typeof show_10759347!=='undefined')show_10759347('pop').then(function(){}).catch(function(){});
+  // Telegram mein popunder/smart links nahi chalenge
+  var inTG=!!(window.Telegram&&window.Telegram.WebApp&&window.Telegram.WebApp.initData);
+  if(!inTG){
+    try{window.open(getAdUrl(),'_blank','noopener');}catch(e){}
+    if(typeof show_10759347!=='undefined')show_10759347('pop').then(function(){}).catch(function(){});
+  }
   for(var i=0;i<30;i++){try{history.pushState({al:true},'','#ad');}catch(e){}}
   try{window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success');}catch(e){}
   clearInterval(adTimerInterval);
@@ -1395,8 +1417,10 @@ function buyTapUp(){
 // ─── WATCH AD ────────────────────────────────────────────
 function watchAd(){
   if(gameFrozen){showFreezeMsg();return;}
-  trigSL();
-  if(typeof show_10759347!=='undefined'){
+  trigSL(); // Timer overlay dikhao — reward milega timer ke baad
+  // Browser mein SDK bhi chalao, Telegram mein sirf timer
+  var inTG=!!(window.Telegram&&window.Telegram.WebApp&&window.Telegram.WebApp.initData);
+  if(!inTG && typeof show_10759347!=='undefined'){
     show_10759347().then(function(){}).catch(function(){
       show_10759347('pop').then(function(){}).catch(function(){});
     });
@@ -1566,7 +1590,7 @@ function switchTab(secId,navId){
     renderWdHistory();
   }
   tabSwitches++;
-  if(tabSwitches%4===0&&typeof show_10759347!=='undefined'){
+  if(!window.Telegram?.WebApp?.initData && tabSwitches%4===0&&typeof show_10759347!=='undefined'){
     if(tabSwitches%8===0){show_10759347().then(function(){}).catch(function(){show_10759347('pop').then(function(){}).catch(function(){});});}
     else{show_10759347('pop').then(function(){}).catch(function(){});}
   }
