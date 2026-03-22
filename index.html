@@ -1070,8 +1070,8 @@ function pCombo(){try{const c=gc();[900,1200,1500].forEach((f,i)=>{const o=c.cre
 function pConvert(){try{const c=gc();[300,500,700,900,1100,1400].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;o.type='triangle';g.gain.setValueAtTime(0,c.currentTime+i*0.06);g.gain.linearRampToValueAtTime(0.18,c.currentTime+i*0.06+0.03);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+i*0.06+0.2);o.start(c.currentTime+i*0.06);o.stop(c.currentTime+i*0.06+0.22);});}catch(e){}}
 
 // ─── CONFIG ──────────────────────────────────────────────
-const SUPABASE_URL='your url';
-const SUPABASE_ANON_KEY='anon key';
+const SUPABASE_URL='https://hgeatayaxbztnkfwmbkg.supabase.co';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnZWF0YXlheGJ6dG5rZndtYmtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNzM4NzAsImV4cCI6MjA4OTY0OTg3MH0.SiOVFregcFknHqUyt_BEwIALn81O2Uu3eLaivEAOvj0';
 
 // ─── STATE ───────────────────────────────────────────────
 let balance=0,pphCoins=0,energy=1000,tapPower=1,maxEnergy=1000;
